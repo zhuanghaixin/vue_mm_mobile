@@ -3,11 +3,14 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 // 引入vant
-import Vant from 'vant'
-import 'vant/lib/index.css'
-// 引入 amfe-flexible
+import './plugins/vant'
+// todo 1-5-1 引入 amfe-flexible
 import 'amfe-flexible'
-Vue.use(Vant)
+//  todo 1-5-2 引入normalize
+import 'normalize.css'
+// todo 1-7 引入iconfont
+import '@/style/iconfont/iconfont.css'
+
 Vue.config.productionTip = false
 
 new Vue({

@@ -39,7 +39,7 @@
         </div>
         <div>
           <van-button round block type="danger">
-            提交
+            确定
           </van-button>
         </div>
       </van-form>
@@ -48,6 +48,8 @@
 </template>
 
 <script>
+import * as loginAPI from '@/api/login'
+
 export default {
   name: 'index',
   data () {
@@ -66,10 +68,6 @@ export default {
           // 自定义校验
           {
             validator: (value, rule) => {
-              console.log('value')
-              console.log(value)
-              console.log('rule')
-              console.log(rule)
               const reg = /^(0|86|17951)?(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57])[0-9]{8}$/
               return reg.test(value)
             },
@@ -94,10 +92,18 @@ export default {
     onClickRight () {
 
     },
+    // todo 2-1 表单验证
     // 部分校验 获取验证码
     getCode () {
       this.$refs.form.validate('mobile').then(() => {
         console.log('手机验证成功')
+        loginAPI.authCode({
+          mobile: this.form.mobile
+        }).then(res => {
+          console.log(res)
+        }).catch(err => {
+          console.log(err)
+        })
       }).catch(() => {
         console.log('手机验证失败')
       })

@@ -10,9 +10,9 @@ import 'amfe-flexible'
 import 'normalize.css'
 // todo 1-7 引入iconfont
 import '@/style/iconfont/iconfont.css'
+import '@/style/common/base.css'
 
 Vue.config.productionTip = false
-
 new Vue({
   router,
   store,

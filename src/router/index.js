@@ -59,7 +59,7 @@ const notFound = () => import('@/views/404/NotFound')
 const routes = [
   {
     path: '/',
-    redirect: '/find'
+    redirect: '/home/userInfo'
   },
   {
     path: '/login',
@@ -216,10 +216,8 @@ const routes = [
   // },
   {
     path: '/404',
-    name:
-  'NotFound',
-    component:
-  notFound
+    name: 'NotFound',
+    component: notFound
   }
 
 ]

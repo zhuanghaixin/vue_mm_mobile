@@ -5,6 +5,9 @@ Vue.use(VueRouter)
 
 // 登录页
 const login = () => import('@/views/login/index')
+
+// 首页
+const home = () => import('@/views/home/index')
 // 公司页
 const company = () => import('@/views/company/index')
 // 公司详情页
@@ -40,7 +43,7 @@ const shareList = () => import('@/views/shareList/index')
 const shareDetail = () => import('@/views/shareDetail/index')
 
 // 个人中心
-const my = () => import('@/views/my/index')
+const userInfo = () => import('@/views/userInfo/index')
 
 // 我的资料
 const info = () => import('@/views/info/index')
@@ -50,6 +53,9 @@ const editInfo = () => import('@/views/editInfo/index')
 
 // 我的消息
 const message = () => import('@/views/message/index')
+
+// 404
+const notFound = () => import('@/views/404/NotFound')
 const routes = [
   {
     path: '/',
@@ -60,110 +66,160 @@ const routes = [
     name: 'Login',
     component: login
   },
-  // 公司
+  // 首页 home
   {
-    path: '/company',
-    name: 'Company',
-    component: company
-  },
-  // 公司详情
-  {
-    path: '/companyDetail/:id',
-    name: 'CompanyDetail',
-    component: companyDetail
-  },
-  // 在招职位
-  {
-    path: '/companyPosition/:id',
-    name: 'CompanyPosition',
-    component: companyPosition
-  },
-  // 职位详情
-  {
-    path: '/positionDetail/:id',
-    name: 'PositionDetail',
-    component: positionDetail
-  },
-  // 企业面试题
-  {
-    path: '/interview',
-    name: 'Interview',
-    component: interview
+    path: '/home',
+    name: 'Home',
+    component: home,
+    redirect: '/home/find',
+    children: [
+      // 公司
+      {
+        path: 'company',
+        name: 'Company',
+        component: company
+      },
+      // 公司详情
+      {
+        path: 'companyDetail/:id',
+        name:
+          'CompanyDetail',
+        component:
+        companyDetail
+      },
+      // 在招职位
+      {
+        path: 'companyPosition/:id',
+        name:
+          'CompanyPosition',
+        component:
+        companyPosition
+      },
+      // 职位详情
+      {
+        path: 'positionDetail/:id',
+        name:
+          'PositionDetail',
+        component:
+        positionDetail
+      },
+      // 企业面试题
+      {
+        path: '/interview',
+        name:
+          'Interview',
+        component:
+        interview
 
-  },
-  // 面试宝典 刷题
-  {
-    path: '/question',
-    name: 'Question',
-    component: question
-  },
-  // 发现页面
-  {
-    path: '/find',
-    name: 'Find',
-    component: find
+      },
+      // 面试宝典 刷题
+      {
+        path: 'question',
+        name: 'Question',
+        component: question
+      },
+      // 发现页面
+      {
+        path: 'find',
+        name: 'Find',
+        component: find
+      },
+
+      // 面试技巧
+      {
+        path: 'technicList',
+        name:
+          'TechnicList',
+        component:
+        technicList
+      },
+      // 面试技巧细节
+      {
+        path: 'technicDetail/:id',
+        name:
+          'TechnicDetail',
+        component:
+        technicDetail
+      },
+      // 面试技巧搜索
+      {
+        path: 'search/:tag',
+        name:
+          'Search',
+        component:
+        search
+      },
+      // 市场数据
+      {
+        path: 'chart',
+        name:
+          'Chart',
+        component:
+        chart
+
+      },
+      // 面试技巧分享
+      {
+        path: 'shareList',
+        name:
+          'ShareList',
+        component:
+        shareList
+      },
+      // 面试技巧分享详情
+      {
+        path: 'shareDetail/:id',
+        name:
+          'ShareDetail',
+        component:
+        shareDetail
+      },
+      // 个人中心
+      {
+        path: 'userInfo',
+        name: 'UserInfo',
+        component: userInfo
+      },
+
+      // 我的资料
+      {
+        path: 'info',
+        name:
+          'Info',
+        component:
+        info
+      },
+      // 编辑资料-修改职位
+      {
+        path: 'editInfo',
+        name:
+          'EditInfo',
+        component:
+        editInfo
+      },
+      // 我的消息
+      {
+        path: '/message',
+        name:
+          'Message',
+        component:
+        message
+      }
+
+    ]
   },
 
-  // 面试技巧
+  // {
+  //   path: '*',
+  //   name: 'NotFound',
+  //   redirect: '/404'
+  // },
   {
-    path: '/technicList',
-    name: 'TechnicList',
-    component: technicList
-  },
-  // 面试技巧细节
-  {
-    path: '/technicDetail/:id',
-    name: 'TechnicDetail',
-    component: technicDetail
-  },
-  // 面试技巧搜索
-  {
-    path: '/search/:tag',
-    name: 'Search',
-    component: search
-  },
-  // 市场数据
-  {
-    path: '/chart',
-    name: 'Chart',
-    component: chart
-
-  },
-  // 面试技巧分享
-  {
-    path: '/shareList',
-    name: 'ShareList',
-    component: shareList
-  },
-  // 面试技巧分享详情
-  {
-    path: '/shareDetail/:id',
-    name: 'ShareDetail',
-    component: shareDetail
-  },
-  // 个人中心
-  {
-    path: '/userInfo',
-    name: 'UserInfo',
-    component: my
-  },
-  // 我的资料
-  {
-    path: '/info',
-    name: 'Info',
-    component: info
-  },
-  // 编辑资料-修改职位
-  {
-    path: '/editInfo',
-    name: 'EditInfo',
-    component: editInfo
-  },
-  // 我的消息
-  {
-    path: '/message',
-    name: 'Message',
-    component: message
+    path: '/404',
+    name:
+  'NotFound',
+    component:
+  notFound
   }
 
 ]

@@ -30,7 +30,8 @@
               <i class="iconfont">&#xe60c;</i>
             </template>
             <template #button>
-              <span class="code" @click="getCode">获取验证码</span>
+              <span class="code" v-if="currentTime==totalTime" @click="getCode">获取验证码</span>
+              <span class="code" v-else>倒计时:{{ currentTime }}</span>
             </template>
           </van-field>
         </van-cell-group>
@@ -48,12 +49,18 @@
 </template>
 
 <script>
-import * as loginAPI from '@/api/login'
+import * as LoginAPI from '@/api/login'
+// todo 3-4
+import * as Token from '@/utils/token'
+// todo 3-5
+import { mapMutations } from 'vuex'
 
 export default {
   name: 'index',
   data () {
     return {
+      totalTime: 5, // 倒计时,时间
+      currentTime: 5, // 当前时间
       form: {
         mobile: '',
         code: ''
@@ -86,6 +93,7 @@ export default {
     }
   },
   methods: {
+    ...mapMutations(['setUserInfo', 'setIsLogin']),
     onClickLeft () {
 
     },
@@ -97,10 +105,33 @@ export default {
     getCode () {
       this.$refs.form.validate('mobile').then(() => {
         console.log('手机验证成功')
-        loginAPI.authCode({
+        // todo 3-1 验证码提示
+        // todo 3-2 倒计时
+        this.currentTime = this.totalTime
+        this.currentTime--
+
+        const timerId = setInterval(() => {
+          this.currentTime--
+          if (this.currentTime <= 0) {
+            clearInterval(timerId)
+            this.currentTime = this.totalTime
+          }
+        }, 1000)
+
+        this.$toast.loading({
+          message: '获取验证码中。。。',
+          duration: 0
+        })
+        LoginAPI.authCode({
           mobile: this.form.mobile
         }).then(res => {
+          console.log('验证码')
           console.log(res)
+
+          this.$toast.success({
+            message: res.data
+          })
+          this.form.code = res.data
         }).catch(err => {
           console.log(err)
         })
@@ -112,11 +143,37 @@ export default {
     onSubmit () {
       this.$refs.form.validate().then(() => {
         console.log('验证成功了')
-      }).catch(() => {
-        console.log('验证失败')
+        // todo 3-3 登录
+        LoginAPI.login(
+          {
+            mobile: this.form.mobile,
+            code: this.form.code
+          }
+        ).then(res => {
+          console.log('登录')
+          console.log(res)
+          // todo 3-8 因为我们在响应拦截中设置错误处理，所以这里不用判断200
+          // todo 3-4 将token保存到本地
+          Token.setLocalToken('mm_token', res.data.jwt)
+
+          // todo 3-5 将用户信息保存到vuex
+          // 异步actions不能获取在devtools查看到操作
+          this.setUserInfo(res.data.user)
+          // this.$store.commit('setUserInfo', res.data.user)
+          // this.$store.dispatch('asyncSetUserInfo', res.data.user)
+
+          // todo 3-6 设置用户登录状态
+          this.setIsLogin(res.data.isLogin)
+          // this.$store.commit('setIsLogin', true)
+          // this.$store.dispatch('asyncSetIsLogin', true)
+
+          // todo 3-7 路由跳转
+          this.$router.push({ name: 'Home' })
+        }).catch(() => {
+          console.log('验证失败')
+        })
       })
     }
-
   }
 }
 </script>

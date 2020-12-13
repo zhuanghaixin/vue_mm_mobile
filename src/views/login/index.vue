@@ -163,7 +163,7 @@ export default {
           // this.$store.dispatch('asyncSetUserInfo', res.data.user)
 
           // todo 3-6 设置用户登录状态
-          this.setIsLogin(res.data.isLogin)
+          this.setIsLogin(true)
           // this.$store.commit('setIsLogin', true)
           // this.$store.dispatch('asyncSetIsLogin', true)
 

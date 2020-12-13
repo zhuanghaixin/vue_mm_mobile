@@ -1,8 +1,6 @@
 import instance from '../utils/http'
 
 export function authCode (data) {
-  console.log('instance')
-  console.log(instance)
   return instance({
     url: '/au/code',
     method: 'POST',

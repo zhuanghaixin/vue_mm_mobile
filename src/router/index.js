@@ -1,6 +1,14 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
+// todo 4-1-1 导入vuex
+import store from '@/store/index'
+// todo 4-1-2 导入 Token
+
+import * as Token from '@/utils/token.js'
+// todo 4-1-3 导入api
+import * as AuthApi from '@/api/auth.js'
+
 Vue.use(VueRouter)
 
 // 登录页
@@ -116,7 +124,10 @@ const routes = [
       {
         path: 'question',
         name: 'Question',
-        component: question
+        component: question,
+        meta: {
+          isNeedLogin: true
+        }
       },
       // 发现页面
       {
@@ -178,7 +189,10 @@ const routes = [
       {
         path: 'userInfo',
         name: 'UserInfo',
-        component: userInfo
+        component: userInfo,
+        meta: {
+          isNeedLogin: true
+        }
       },
 
       // 我的资料
@@ -224,6 +238,45 @@ const routes = [
 
 const router = new VueRouter({
   routes
+})
+
+// todo 4-1  前置守卫 登录处理
+/*
+* 1.判断当前页面是否需要登录
+*      不需要,放行
+*      需要 2.判断用户是否登录
+*               登录 放行
+*               未登录  3. 判断用户是否有正确的token
+*                          有，   获取用户信息， 设置登录状态为true  把用户信息保存到vuex中 放行
+*                          没有，跳转到登录页面 next()
+*
+*
+* */
+
+router.beforeEach((to, from, next) => {
+  if (!to.meta.isNeedLogin) {
+    next()
+  } else {
+    if (store.getters.getIsLogin) {
+      next()
+    } else {
+      console.log('Token.getLocalToken')
+      console.log(Token.getLocalToken())
+      if (Token.getLocalToken()) {
+        // 获取用户信息
+        AuthApi.authInfo(Token.getLocalToken()).then(res => {
+          // 设置登录状态
+          store.commit('setIsLogin', true)
+          // 保存用户信息
+          store.commit('setUserInfo', res.data)
+          // 放行
+          next()
+        })
+      } else {
+        next('/login')
+      }
+    }
+  }
 })
 
 export default router

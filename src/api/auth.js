@@ -1,10 +1,12 @@
-import instance from '@/utils'
-
-export function authInfo (data) {
+import instance from '../utils/http'
+export function authInfo (token) {
   return instance({
-    url: '/au/code',
+    url: '/au/info',
     method: 'GET',
-    params: data
+    headets: {
+      authorization: `Bearer ${token}`
+    }
+
   })
 }
 

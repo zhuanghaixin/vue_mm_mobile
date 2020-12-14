@@ -29,8 +29,7 @@ export default {
 
     },
     position: {
-      type: String,
-      default: '产品经理'
+      type: String
     },
     value: {
       type: String,

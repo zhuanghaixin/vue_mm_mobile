@@ -6,7 +6,7 @@
           <h2>{{ getUserInfo.nickname }}</h2>
           <p>{{ getUserInfo.intro }}</p>
         </div>
-        <div class="right">
+        <div class="right" @click="navToInfo">
           <img v-if="getUserInfo.avatar" :src="baseURL+getUserInfo.avatar" alt="">
           <img v-else src="@/assets/logo.png" alt="">
         </div>
@@ -25,7 +25,7 @@
           <span>我的错题</span>
         </div>
         <div class="top-2-item">
-          <h3>298</h3>
+          <h3>{{rightPercent}}</h3>
           <span>正确率</span>
         </div>
       </div>
@@ -122,14 +122,21 @@ export default {
 
   created () {
 
+  },
+  methods: {
+    // todo 4-7 点击头像跳转
+    navToInfo () {
+      this.$router.push({ name: 'Info' })
+    }
   }
+
 }
 </script>
 
 <style lang="less" scoped>
 .userInfo {
   background-color: @color-bg;
-  height: 100%;
+  height: calc(100% - 60px);
 
   .top {
     color: @color-white;

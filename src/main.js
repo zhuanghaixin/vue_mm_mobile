@@ -12,7 +12,6 @@ import 'normalize.css'
 import '@/style/iconfont/iconfont.css'
 import '@/style/common/base.css'
 
-// todo todo
 import navbar from '@/components/base/NavBar'
 
 Vue.component(navbar.name, navbar)

@@ -29,8 +29,8 @@ export default {
   },
   methods: {
     onClickLeft () {
-      // todo  封装NavBar组件
-      if (this.pathName.includes('/')) {
+      // todo 4-8   封装NavBar组件
+      if (this.pathName?.includes('/')) {
         return this.$router.push(this.pathName)
       } else if (this.pathName) {
         return this.$router.push({ name: `${this.pathName}` })

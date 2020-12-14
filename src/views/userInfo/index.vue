@@ -30,12 +30,12 @@
         </div>
       </div>
       <div class="top-3">
-        <JobCell
+        <Cell
           class="job-cell"
           title="我的岗位"
-          :position="getUserInfo.position"
+          :value="getUserInfo.position"
           icon="&#xe64d;"
-        ></JobCell>
+        ></Cell>
       </div>
 
     </div>
@@ -77,12 +77,12 @@
         </van-cell>
       </div>
       <div class="options">
-        <JobCell icon="&#xe655;" title="我的面经分享" value="21"></JobCell>
-        <JobCell icon="&#xe656;" title="我的消息" value="98"></JobCell>
-        <JobCell icon="&#xe654;" title="收藏的题库" value="29"></JobCell>
-        <JobCell icon="&#xe64f;" title="收藏的企业" value="32"></JobCell>
-        <JobCell icon="&#xe64f;" title="我的错题" value="123"></JobCell>
-        <JobCell icon="&#xe611;" title="收藏的面试经验" value="32"></JobCell>
+        <Cell icon="&#xe655;" title="我的面经分享" value="21"></Cell>
+        <Cell icon="&#xe656;" title="我的消息" value="98"></Cell>
+        <Cell icon="&#xe654;" title="收藏的题库" value="29"></Cell>
+        <Cell icon="&#xe64f;" title="收藏的企业" value="32"></Cell>
+        <Cell icon="&#xe64f;" title="我的错题" value="123"></Cell>
+        <Cell icon="&#xe611;" title="收藏的面试经验" value="32"></Cell>
       </div>
     </div>
 
@@ -91,12 +91,12 @@
 </template>
 
 <script>
-import JobCell from '@/views/userInfo/JobCell'
+import Cell from '@/components/Cell'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'UserInfo',
-  components: { JobCell },
+  components: { Cell },
   computed: {
     ...mapGetters(['getIsLogin', 'getUserInfo']),
     // 正确率计算

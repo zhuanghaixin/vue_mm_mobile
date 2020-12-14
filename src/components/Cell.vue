@@ -1,6 +1,6 @@
 <template>
   <van-cell
-    class="job-cell"
+    class="cell"
     :border="false"
     center>
     <template #title>
@@ -10,8 +10,9 @@
       <i class="iconfont left-icon" v-html="icon"></i>
     </template>
     <template #default>
-      <h3 class="value" v-if="position">{{ position }}</h3>
-      <h3 class="value" v-else>{{ value }}</h3>
+      <img v-if="avatar" :src="imageUrl" alt="">
+      <h3 v-else-if="value" class="value">{{ value }}</h3>
+      <img v-else src="@/assets/logo.png" alt="">
     </template>
     <template #right-icon>
       <i class="iconfont right-icon">&#xe653;</i>
@@ -20,7 +21,12 @@
 </template>
 <script>
 export default {
-  name: 'JobCell',
+  name: 'Cell',
+  data () {
+    return {
+      baseUrl: process.env.VUE_APP_URL
+    }
+  },
   props: {
     title: {
       type: String,
@@ -28,29 +34,39 @@ export default {
       default: '用户岗位'
 
     },
-    position: {
+    value: {
       type: String
     },
-    value: {
-      type: String,
-      default: '10'
+    avatar: {
+      type: String
     },
     icon: {
-      type: String,
-      default: '&#xe64d'
+      type: String
+    }
+  },
+  computed: {
+    imageUrl () {
+      return this.baseUrl + this.avatar
     }
   }
 }
 </script>
 <style lang="less" scoped>
 
-.job-cell {
+.cell {
   .title {
     font-size: 14px;
     font-family: PingFangSC, PingFangSC-Regular;
     font-weight: 400;
     color: #181a39;
     margin-left: 12px;
+  }
+
+  img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 8px;
   }
 
   .value {

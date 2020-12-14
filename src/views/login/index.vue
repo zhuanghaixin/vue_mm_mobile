@@ -1,13 +1,9 @@
 <template>
   <div class="login">
-    <van-nav-bar
-      @click-left="onClickLeft"
-      @click-right="onClickRight"
-    >
-      <template #left>
-        <i class="iconfont">&#xe637;</i>
-      </template>
-    </van-nav-bar>
+    <NavBar
+      :title="title"
+      :pathName="pathName"
+    ></NavBar>
     <div class="content">
       <h3 class="title">你好，请登录</h3>
       <van-form @submit="onSubmit" ref="form">
@@ -59,6 +55,8 @@ export default {
   name: 'index',
   data () {
     return {
+      title: '个人资料',
+      pathName: 'Find', // 1.可以传路径，可以传name  //如果不传的话，就返回上一页
       totalTime: 5, // 倒计时,时间
       currentTime: 5, // 当前时间
       form: {

@@ -1,11 +1,14 @@
 import instance from '../utils/http'
+
 export function authInfo (token) {
   return instance({
     url: '/au/info',
     method: 'GET',
-    headets: {
-      authorization: `Bearer ${token}`
-    }
+    //  fixme 获取用户信息 需要携带authorization请求头，这样比较麻烦，所以需要在请求拦截器中设置
+    // headers: {
+    //   authorization: `Bearer ${token}`
+    // }
+    needToken: true
 
   })
 }

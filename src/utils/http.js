@@ -24,6 +24,10 @@ instance.interceptors.request.use(
     // 在发送请求之前做些什么
     // console.log('config')
     // console.log(config)
+    // todo 4-3 请求拦截器
+    if (config.needToken) {
+      config.headers = { authorization: `Bearer ${Token.getLocalToken('mm_token')}` }
+    }
     return config
   },
   function (error) {
@@ -34,6 +38,8 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   function (response) {
+    console.log('response.data.code......')
+    console.log(response.data.code)
     // 对响应数据做点什么
     if (response.data.code === 200) {
       return response.data
@@ -47,8 +53,6 @@ instance.interceptors.response.use(
       // todo 4-2-4 跳转到login
       router.push('/login')
       // todo 4-2-5 中止then
-      console.log('response,,,,,;')
-      console.log(response)
       return Promise.reject(new Error(response.data.message))
     } else {
       Toast.fail(response.data.message)

@@ -5,7 +5,9 @@
     <!--    <router-link to="Question">刷题</router-link>-->
     <!--    <router-link to="Find">发现</router-link>-->
     <!--    <router-link to="My">我的</router-link>-->
-    <van-tabbar route :active-color="activeColor" :inactive-color="inActiveColor" :placeholder="true" >
+    <van-tabbar
+      v-if="$route.meta.isNeedTab"
+      route :active-color="activeColor" :inactive-color="inActiveColor" :placeholder="true">
       <van-tabbar-item :to="{name:'Company'}">
         <template #default>
           <span>公司</span>
@@ -53,18 +55,19 @@ export default {
       inActiveColor: '#B4B4BD'
     }
   }
-  // 每次刷新，重新获取用户数据
 }
 </script>
 
 <style lang="less" scoped>
-    .home{
-      height: 100%;
-      ::v-deep .van-hairline--top-bottom{
-        height: 60px;
-      }
-      .iconfont{
-        font-size: 28px;
-      }
-    }
+.home {
+  height: 100%;
+
+  ::v-deep .van-hairline--top-bottom {
+    height: 60px;
+  }
+
+  .iconfont {
+    font-size: 28px;
+  }
+}
 </style>

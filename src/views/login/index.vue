@@ -92,6 +92,14 @@ export default {
       }
     }
   },
+  created () {
+    console.log('create ')
+    // todo 4-5 已登录状态状态重新进入登录
+    if (Token.getLocalToken('mm_token')) {
+      // 已经登录的时候，在其他页面，这时，我们切换到登录页，如果有token则跳转回首页
+      this.$router.push({ name: 'UserInfo' })
+    }
+  },
   methods: {
     ...mapMutations(['setUserInfo', 'setIsLogin']),
     onClickLeft () {
@@ -168,7 +176,16 @@ export default {
           // this.$store.dispatch('asyncSetIsLogin', true)
 
           // todo 3-7 路由跳转
-          this.$router.push({ name: 'Home' })
+          // this.$router.push({ name: 'Home' })
+
+          // todo 4-6 当我们没有登录时，进入哪个页面，跳转至登录页，登录完成后，应该回到需要进入的页面
+          const _redirect = this.$route.params.toPath
+          console.log(_redirect)
+          if (_redirect) {
+            this.$router.push(_redirect)
+          } else {
+            this.$router.push({ name: 'Home' })
+          }
         }).catch(() => {
           console.log('验证失败')
         })

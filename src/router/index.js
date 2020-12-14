@@ -9,6 +9,12 @@ import * as Token from '@/utils/token.js'
 // todo 4-1-3 导入api
 import * as AuthApi from '@/api/auth.js'
 
+// todo 4-4 路由潜在bug 当跳转相同路由时
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push (location, onResolve, onReject) {
+  if (onResolve || onReject) return originalPush.call(this, location, onResolve, onReject)
+  return originalPush.call(this, location).catch(err => err)
+}
 Vue.use(VueRouter)
 
 // 登录页
@@ -80,12 +86,20 @@ const routes = [
     name: 'Home',
     component: home,
     redirect: '/home/find',
+    meta: {
+      isNeedLogin: false,
+      isNeedTab: true
+    },
     children: [
       // 公司
       {
         path: 'company',
         name: 'Company',
-        component: company
+        component: company,
+        meta: {
+          isNeedLogin: false,
+          isNeedTab: true
+        }
       },
       // 公司详情
       {
@@ -126,14 +140,19 @@ const routes = [
         name: 'Question',
         component: question,
         meta: {
-          isNeedLogin: true
+          isNeedLogin: true,
+          isNeedTab: true
         }
       },
       // 发现页面
       {
         path: 'find',
         name: 'Find',
-        component: find
+        component: find,
+        meta: {
+          isNeedLogin: false,
+          isNeedTab: true
+        }
       },
 
       // 面试技巧
@@ -191,17 +210,20 @@ const routes = [
         name: 'UserInfo',
         component: userInfo,
         meta: {
-          isNeedLogin: true
+          isNeedLogin: true,
+          isNeedTab: true
         }
       },
 
       // 我的资料
       {
         path: 'info',
-        name:
-          'Info',
-        component:
-        info
+        name: 'Info',
+        component: info,
+        meta: {
+          isNeedLogin: true,
+          isNeedTab: false
+        }
       },
       // 编辑资料-修改职位
       {
@@ -255,25 +277,35 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   if (!to.meta.isNeedLogin) {
+    // 传入从哪里来的参数
     next()
   } else {
     if (store.getters.getIsLogin) {
       next()
     } else {
-      console.log('Token.getLocalToken')
-      console.log(Token.getLocalToken())
-      if (Token.getLocalToken()) {
-        // 获取用户信息
-        AuthApi.authInfo(Token.getLocalToken()).then(res => {
+      if (Token.getLocalToken('mm_token')) { // token过期应该进入这里
+        // fixme 获取用户信息 需要携带authorization请求头，这样比较麻烦，所以需要在请求拦截器中设置
+        AuthApi.authInfo().then(res => {
           // 设置登录状态
           store.commit('setIsLogin', true)
           // 保存用户信息
           store.commit('setUserInfo', res.data)
           // 放行
           next()
+        }).catch(err => {
+          console.log('现在登录异常')
+          console.log(err)
         })
       } else {
-        next('/login')
+        console.log(to)
+        console.log(to.fullPath)
+        // todo 4-6 当我们没有登录时，进入哪个页面，跳转至登录页，登录完成后，应该回到需要进入响应的页面
+        next({
+          name: 'Login',
+          params: {
+            toPath: to.fullPath
+          }
+        })
       }
     }
   }

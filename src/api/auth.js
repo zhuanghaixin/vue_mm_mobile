@@ -18,7 +18,8 @@ export function authEdit (data) {
   return instance({
     url: '/au/edit',
     method: 'POST',
-    data: data
+    data: data,
+    needToken: true
   })
 }
 
@@ -26,6 +27,7 @@ export function authEdit (data) {
 export function uplooad (data) {
   return instance({
     url: '/upload',
-    method: 'POST'
+    method: 'POST',
+    needToken: true
   })
 }

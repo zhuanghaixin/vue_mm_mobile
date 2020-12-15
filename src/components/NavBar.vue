@@ -2,6 +2,7 @@
   <div class="navbar">
     <van-nav-bar
       @click-left="onClickLeft"
+      @click-right="onClickRight"
     >
       <template #left>
         <i class="iconfont">&#xe637;</i>
@@ -9,7 +10,9 @@
       <template #title>
         <h1 class="title">{{ title }}</h1>
       </template>
-      <template #right></template>
+      <template #right v-if="rightText">
+        <span class="rightText">{{rightText}}</span>
+      </template>
     </van-nav-bar>
   </div>
 </template>
@@ -21,6 +24,9 @@ export default {
       type: String
     },
     pathName: {
+      type: String
+    },
+    rightText: {
       type: String
     }
   },
@@ -36,6 +42,10 @@ export default {
         return this.$router.push({ name: `${this.pathName}` })
       }
       this.$router.go(-1)
+    },
+    onClickRight () {
+      console.log(11111)
+      this.$emit('rightEvent')
     }
   }
 }
@@ -58,6 +68,14 @@ export default {
     font-weight: 600;
     color: @color-black-2;
     line-height: 50px;
+    letter-spacing: 0px;
+  }
+  .rightText{
+    font-size: 14px;
+    font-family: PingFangSC, PingFangSC-Regular;
+    font-weight: 400;
+    color: @color-black-1;
+    line-height: 40px;
     letter-spacing: 0px;
   }
 }

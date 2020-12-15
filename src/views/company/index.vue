@@ -1,7 +1,6 @@
 <template>
-  <div>
-  公司主页
-    <router-view></router-view>
+  <div class="company">
+
   </div>
 
 </template>
@@ -13,5 +12,7 @@ export default {
 </script>
 
 <style lang="less">
+.company{
 
+}
 </style>

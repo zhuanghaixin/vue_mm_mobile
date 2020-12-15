@@ -1,3 +1,5 @@
+import * as AuthApi from '@/api/auth'
+// import login from './modules/login'
 const state = {
   userInfo: ''
 }
@@ -13,8 +15,12 @@ const mutations = {
 }
 
 const actions = {
-  asyncSetUserInfo ({ commit }, payload) {
-    commit('setUserInfo', payload)
+  async refreshUserInfo ({ commit }, payload) {
+    // 用户信息
+    // fixme 为什么这里可以使用setIsLogin
+    const res = await AuthApi.authInfo()
+    commit('setUserInfo', res.data)
+    commit('setIsLogin', true)
   }
 }
 

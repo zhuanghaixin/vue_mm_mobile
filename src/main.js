@@ -12,7 +12,7 @@ import 'normalize.css'
 import '@/style/iconfont/iconfont.css'
 import '@/style/common/base.css'
 
-import navbar from '@/components/base/NavBar'
+import navbar from '@/components/NavBar'
 
 Vue.component(navbar.name, navbar)
 

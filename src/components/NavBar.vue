@@ -5,7 +5,7 @@
       @click-right="onClickRight"
     >
       <template #left>
-        <i class="iconfont">&#xe637;</i>
+        <i class="iconfont" v-html="icon"></i>
       </template>
       <template #title>
         <h1 class="title">{{ title }}</h1>
@@ -28,6 +28,10 @@ export default {
     },
     rightText: {
       type: String
+    },
+    icon: {
+      type: String,
+      default: '&#xe637'
     }
   },
   created () {

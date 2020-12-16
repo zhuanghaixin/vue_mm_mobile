@@ -15,6 +15,7 @@ const mutations = {
 }
 
 const actions = {
+
   async refreshUserInfo ({ commit }, payload) {
     // 用户信息
     // fixme 为什么这里可以使用setIsLogin

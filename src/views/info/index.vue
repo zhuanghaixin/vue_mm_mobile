@@ -5,7 +5,10 @@
     ></NavBar>
     <div class="content">
       <div class="avatar">
-        <Cell title="头像" :avatar="getUserInfo.avatar"></Cell>
+        <Cell title="头像"
+              :avatar="getUserInfo.avatar"
+              @click.native="goEditInfo('avatar')"
+        ></Cell>
       </div>
       <div class="personal_info">
 
@@ -16,7 +19,7 @@
           :value="getUserInfo.nickname"
         ></Cell>
         <Cell title="性别" :value="genderObj[getUserInfo.gender]" @click.native="showGender"></Cell>
-        <Cell title="地区" :value="getUserInfo.area" @click.native="showArea"></Cell>
+        <Cell title="地区" :value="area.city_list[getUserInfo.area]" @click.native="showArea"></Cell>
         <Cell title="个人简介"
               @click.native="goEditInfo('intro')"
               :value="getUserInfo.intro"
@@ -39,18 +42,20 @@
       position="bottom"
     >
       <van-picker
+        v-if="bol"
         title="修改性别"
         show-toolbar
         :columns="Object.values(genderObj)"
         @confirm="onGenderConfirm"
         @cancel="genderStatus=false"
         @change="onChange"
-        :default-index="0"
+        :default-index="getUserInfo.gender"
       ></van-picker>
     </van-popup>
 
     <van-popup v-model="areaStatus" position="bottom">
       <van-area
+        v-if="bol"
         :area-list="area"
         :columns-num="2"
         :value="getUserInfo.area"
@@ -78,6 +83,7 @@ export default {
   },
   data () {
     return {
+      bol: true, // 静默刷新
       title: '个人资料',
       // pathName: '/home/question' // 1.可以传路径，可以传name  //如果不传的话，就返回上一页
       genderObj: {
@@ -100,6 +106,29 @@ export default {
   },
   computed: {
     ...mapGetters(['getUserInfo', 'getIsLogin'])
+  },
+  // fixme 5-1 修复点击弹出取消后不会变成初始值的问题
+  watch: {
+    genderStatus (newValue) {
+      console.log('newValue,,,')
+      console.log(newValue)
+      if (!newValue) {
+        this.bol = false
+        this.$nextTick(() => {
+          this.bol = true
+        })
+      }
+    },
+    areaStatus (newValue) {
+      console.log('newValue,,,')
+      console.log(newValue)
+      if (!newValue) {
+        this.bol = false
+        this.$nextTick(() => {
+          this.bol = true
+        })
+      }
+    }
   },
   methods: {
     ...mapActions(['refreshUserInfo']),
@@ -138,7 +167,6 @@ export default {
     onGenderConfirm (value, index) {
       // 关闭弹窗
       this.genderStatus = false
-
       this.editInfo(
         {
           gender: index
@@ -155,7 +183,7 @@ export default {
       //
       this.editInfo(
         {
-          area: value[1].name
+          area: value[1].code
         }
       )
     },
@@ -166,10 +194,14 @@ export default {
         duration: 0
       })
       // 编辑用户接口
-      await AuthApi.authEdit(infoObj)
-      this.$toast.success('修改资料成功')
-      // 重新加载数据 fixme 使用 action代替
-      this.refreshUserInfo()
+      try {
+        await AuthApi.authEdit(infoObj)
+        this.$toast.success('修改资料成功')
+        // 重新加载数据 fixme 使用 action代替
+        this.refreshUserInfo()
+      } catch (err) {
+        console.log(err)
+      }
       // // 用户信息
       // const res = await AuthApi.authInfo()
       // this.$store.commit('setUserInfo', res.data)
@@ -177,7 +209,10 @@ export default {
     },
     // todo 5-3-1 跳转 编辑用户昵称
     goEditInfo (typeName) {
-      this.$router.push({ name: 'EditInfo', query: { type: typeName } })
+      this.$router.push({
+        name: 'EditInfo',
+        query: { type: typeName }
+      })
     }
   }
 

@@ -35,6 +35,7 @@
           title="我的岗位"
           :value="getUserInfo.position"
           icon="&#xe64d;"
+          @click.native="goEditInfo('position')"
         ></Cell>
       </div>
 
@@ -127,6 +128,10 @@ export default {
     // todo 4-7 点击头像跳转
     navToInfo () {
       this.$router.push({ name: 'Info' })
+    },
+    // todo 5-3-1 跳转 编辑用户昵称
+    goEditInfo (typeName) {
+      this.$router.push({ name: 'EditInfo', query: { type: typeName } })
     }
   }
 

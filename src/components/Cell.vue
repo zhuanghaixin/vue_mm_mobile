@@ -79,7 +79,7 @@ export default {
   }
 
   .iconfont.left-icon, .iconfont.right-icon {
-    font-size: 20px;
+    font-size: 10px;
   }
 
 }

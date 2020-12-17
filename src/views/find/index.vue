@@ -22,13 +22,26 @@
             <van-tag color="#eceaea" text-color="#545671" size="large">{{ chart.position }}</van-tag>
           </div>
           <div class="chart-hot-items">
-            <ChartHotItem
-              v-for="(item,index) in chartHotList"
-              :chartHotItem="item"
-              :key="index"
-              :topSalary="chart.topSalary"
-              v-show="index<showCountCurrent"
-            ></ChartHotItem>
+
+            <collapse-transition>
+                <ChartHotItem
+                  v-for="(item,index) in chartHotList"
+                  :chartHotItem="item"
+                  :key="index"
+                  :topSalary="chart.topSalary"
+                  v-show="index<showCountCurrent"
+                ></ChartHotItem>
+            </collapse-transition>
+
+<!--            <transition-group name="sub-comments">-->
+<!--              <ChartHotItem-->
+<!--                v-for="(item,index) in chartHotList"-->
+<!--                :chartHotItem="item"-->
+<!--                :key="index"-->
+<!--                :topSalary="chart.topSalary"-->
+<!--                v-show="index<showCountCurrent"-->
+<!--              ></ChartHotItem>-->
+<!--            </transition-group>-->
           </div>
         </div>
         <div class="collapse">
@@ -62,17 +75,19 @@ import ChartHotItem from './ChartHotItem'
 import ShareItem from './ShareItem'
 import * as ArticleAPI from '@/api/article'
 import * as ChartAPI from '@/api/chart'
-
+import CollapseTransition from '@/utils/folder-animation'
 export default {
   name: 'Find',
   components: {
     FindCell,
     TechnicItem,
     ChartHotItem,
-    ShareItem
+    ShareItem,
+    CollapseTransition
   },
   data () {
     return {
+      isActive: true,
       loading1: true, // 是否显示骨架屏
       loading2: true,
       loading3: true,
@@ -136,8 +151,9 @@ export default {
 
 <style lang="less" scoped>
 .find {
-  .content{
-    padding:0 15px;
+  .content {
+    padding: 0 15px;
+
     .chart-tag {
       display: flex;
 
@@ -151,6 +167,7 @@ export default {
       margin-top: 27px;
       overflow: hidden;
     }
+
     .collapse {
       display: flex;
       align-items: center;
@@ -169,21 +186,40 @@ export default {
         }
       }
     }
+
     .line {
       height: 10px;
       margin: 0 -15px;
       background-color: #f7f4f5;
     }
-    .mybox-leave-active,.mybox-enter-active{
-      transition:  all 1s ease;
+
+    .mybox-leave-active, .mybox-enter-active {
+      transition: all 1s ease;
     }
-    .mybox-leave-active,.mybox-enter{
-      height:0px !important;
+
+    .mybox-leave-active, .mybox-enter {
+      height: 0px !important;
     }
-    .mybox-leave,.mybox-enter-active{
+
+    .mybox-leave, .mybox-enter-active {
       height: 500px;
     }
   }
 
+}
+
+ .sub-comments-enter-active {
+  transition: max-height 0.5s ease-in;
+}
+.sub-comments-leave-active{
+  transition: max-height 0.5s ease-out;
+}
+
+.sub-comments-enter, .sub-comments-leave-to {
+  max-height: 0;
+}
+
+.sub-comments-enter-to, .sub-comments-leave {
+  max-height: 4rem;
 }
 </style>

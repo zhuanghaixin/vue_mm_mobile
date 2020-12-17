@@ -24,10 +24,11 @@ export function authEdit (data) {
 }
 
 // fixme 待修改
-export function uplooad (data) {
+export function upload (data) {
   return instance({
     url: '/upload',
     method: 'POST',
-    needToken: true
+    needToken: true,
+    data: data
   })
 }

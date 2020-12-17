@@ -1,9 +1,10 @@
 import instance from '../utils/http'
 
-export function articleTechnicList () {
+export function articleTechnicList (params) {
   return instance({
     url: '/articles/technic',
-    method: 'GET'
+    method: 'GET',
+    params
   })
 }
 
@@ -21,10 +22,11 @@ export function articleTechnicTopSearch () {
   })
 }
 
-export function articleShareList (id) {
+export function articleShareList (params) {
   return instance({
     url: '/articles/share',
-    method: 'GET'
+    method: 'GET',
+    params
   })
 }
 

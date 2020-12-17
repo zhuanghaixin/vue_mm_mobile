@@ -158,51 +158,63 @@ const routes = [
       // 面试技巧
       {
         path: 'technicList',
-        name:
-          'TechnicList',
-        component:
-        technicList
+        name: 'TechnicList',
+        component: technicList,
+        meta: {
+          isNeedLogin: true,
+          isNeedTab: false
+        }
       },
       // 面试技巧细节
       {
         path: 'technicDetail/:id',
-        name:
-          'TechnicDetail',
-        component:
-        technicDetail
+        name: 'TechnicDetail',
+        component: technicDetail,
+        meta: {
+          isNeedLogin: true,
+          isNeedTab: false
+        }
       },
       // 面试技巧搜索
       {
         path: 'search/:tag',
-        name:
-          'Search',
-        component:
-        search
+        name: 'Search',
+        component: search,
+        meta: {
+          isNeedLogin: true,
+          isNeedTab: false
+        }
       },
       // 市场数据
       {
         path: 'chart',
-        name:
-          'Chart',
-        component:
-        chart
+        name: 'Chart',
+        component: chart,
+        meta: {
+          isNeedLogin: true,
+          isNeedTab: false
+        }
 
       },
       // 面试技巧分享
       {
         path: 'shareList',
-        name:
-          'ShareList',
-        component:
-        shareList
+        name: 'ShareList',
+        component: shareList,
+        meta: {
+          isNeedLogin: true,
+          isNeedTab: false
+        }
       },
       // 面试技巧分享详情
       {
         path: 'shareDetail/:id',
-        name:
-          'ShareDetail',
-        component:
-        shareDetail
+        name: 'ShareDetail',
+        component: shareDetail,
+        meta: {
+          isNeedLogin: true,
+          isNeedTab: false
+        }
       },
       // 个人中心
       {
@@ -228,10 +240,12 @@ const routes = [
       // 编辑资料-修改职位
       {
         path: 'editInfo',
-        name:
-          'EditInfo',
-        component:
-        editInfo
+        name: 'EditInfo',
+        component: editInfo,
+        meta: {
+          isNeedLogin: true,
+          isNeedTab: false
+        }
       },
       // 我的消息
       {
@@ -290,6 +304,7 @@ router.beforeEach((to, from, next) => {
           store.commit('setIsLogin', true)
           // 保存用户信息
           store.commit('setUserInfo', res.data)
+
           // 放行
           next()
         }).catch(err => {
@@ -297,8 +312,6 @@ router.beforeEach((to, from, next) => {
           console.log(err)
         })
       } else {
-        console.log(to)
-        console.log(to.fullPath)
         // todo 4-6 当我们没有登录时，进入哪个页面，跳转至登录页，登录完成后，应该回到需要进入响应的页面
         next({
           name: 'Login',

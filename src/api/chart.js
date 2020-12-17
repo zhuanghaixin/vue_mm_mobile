@@ -1,4 +1,4 @@
-import instance from '@/utils'
+import instance from '@/utils/http'
 
 export function chartDataHot () {
   return instance({

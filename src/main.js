@@ -12,9 +12,12 @@ import 'normalize.css'
 import '@/style/iconfont/iconfont.css'
 import '@/style/common/base.css'
 
-import navbar from '@/components/NavBar'
+// import navbar from '@/components/NavBar'
+// Vue.component(navbar.name, navbar)
+// todo 6-2 封装公有组件 用use
+import common from '@/utils/common'
 
-Vue.component(navbar.name, navbar)
+Vue.use(common)
 
 Vue.config.productionTip = false
 new Vue({

@@ -290,6 +290,8 @@ const router = new VueRouter({
 * */
 
 router.beforeEach((to, from, next) => {
+  // todo 7-7-6 页面切换时取消所有接口调用
+  window.cancelAxios('', true)
   if (!to.meta.isNeedLogin) {
     // 传入从哪里来的参数
     next()
@@ -304,7 +306,6 @@ router.beforeEach((to, from, next) => {
           store.commit('setIsLogin', true)
           // 保存用户信息
           store.commit('setUserInfo', res.data)
-
           // 放行
           next()
         }).catch(err => {

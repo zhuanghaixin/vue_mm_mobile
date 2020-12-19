@@ -1,7 +1,7 @@
 <template>
   <div class="shareItem">
-    <h3 class="title van-ellipsis">
-      {{ shareItem.title }}
+    <h3 class="title van-ellipsis" v-html="shareItem.title">
+
     </h3>
     <div class="title2 van-multi-ellipsis--l2">
       {{ shareItem.content }}

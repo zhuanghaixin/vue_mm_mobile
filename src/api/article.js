@@ -1,4 +1,9 @@
 import instance from '../utils/http'
+import axios from 'axios'
+// todo 7-6 取消接口调用
+// todo 7-6-1 导入axios
+//
+let _cancel = ''
 
 export function articleTechnicList (params) {
   return instance({
@@ -23,10 +28,26 @@ export function articleTechnicTopSearch () {
 }
 
 export function articleShareList (params) {
+  // if (typeof _cancel === 'function') {
+  //   _cancel()
+  // }
+  try {
+    // todo 7-6-4 每次接口调用前取消
+    _cancel()
+  } catch (err) {
+    // console.log('err')
+    // console.log(err)
+  }
   return instance({
     url: '/articles/share',
     method: 'GET',
-    params
+    params,
+    // todo 7-6-2 配置cancelToken   7-6-3 拿到该接口的取消方法
+    cancelToken: new axios.CancelToken((cancel) => {
+      // console.log('cancel')
+      // console.log(cancel)
+      _cancel = cancel //  todo 7-6-3 拿到该接口的取消方法
+    })
   })
 }
 

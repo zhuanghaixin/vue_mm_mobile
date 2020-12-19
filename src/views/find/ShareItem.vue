@@ -1,9 +1,9 @@
 <template>
   <div class="shareItem">
-    <h3 class="title van-ellipsis" v-html="shareItem.title">
+    <h3 class="title van-ellipsis" v-html="shareItem.title" @click="goShareDetail">
 
     </h3>
-    <div class="title2 van-multi-ellipsis--l2">
+    <div class="title2 van-multi-ellipsis--l2" @click="goShareDetail">
       {{ shareItem.content }}
     </div>
     <div class="other">
@@ -33,7 +33,17 @@
 <script>
 export default {
   name: 'ShareItem',
-  props: ['shareItem']
+  props: ['shareItem'],
+  methods: {
+    goShareDetail () {
+      this.$router.push({
+        name: 'ShareDetail',
+        params: {
+          id: this.shareItem.id
+        }
+      })
+    }
+  }
 }
 </script>
 <style lang="less" scoped>

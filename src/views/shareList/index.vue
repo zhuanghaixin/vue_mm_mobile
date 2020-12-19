@@ -24,18 +24,18 @@
       </van-list>
     </div>
     <div v-else class="search">
-     <div class="search-us">
-       <h3 class="title">大家都在搜</h3>
-       <van-row gutter="30">
-         <van-col v-for="(item,index) in hotList" :key="index">
-           <van-tag
-             @click="searchUs(item)"
-             color="#F7F4F5" text-color="#545671
+      <div class="search-us">
+        <h3 class="title">大家都在搜</h3>
+        <van-row gutter="30">
+          <van-col v-for="(item,index) in hotList" :key="index">
+            <van-tag
+              @click="searchUs(item)"
+              color="#F7F4F5" text-color="#545671
 ">{{ item }}
-           </van-tag>
-         </van-col>
-       </van-row>
-     </div>
+            </van-tag>
+          </van-col>
+        </van-row>
+      </div>
       <div class="search-history">
         <van-cell
           class="cell"
@@ -52,9 +52,12 @@
         <van-row gutter="30">
           <van-col v-for="(item,index) in historyList" :key="index">
             <van-tag
-              @click="searchUs(item)"
+              closeable
+              v-if="item.show"
+              @click="searchUs(item.keyword)"
+              @close="close(item)"
               color="#F7F4F5" text-color="#545671
-">{{ item }}
+">{{ item.keyword }}
             </van-tag>
           </van-col>
         </van-row>
@@ -69,6 +72,7 @@
 import { articleShareList, articleShareTopSearch } from '@/api/article'
 import ShareItem from '@/views/find/ShareItem'
 import { getLocalToken, setLocalToken } from '@/utils/token'
+
 export default {
   name: 'ShareList',
   components: {
@@ -84,7 +88,6 @@ export default {
       pageSize: 2, // 业容量
       bol: true, // 静默刷新
       showList: true, // 显示列表
-      show: true,
       hotList: [], // 热搜列表
       historyList: JSON.parse(getLocalToken('history-key-words')) || [] // 搜索记录
     }
@@ -124,7 +127,7 @@ export default {
     },
     // todo 7-5 搜索
     search () {
-      //
+      //  重新显示列表
       this.showList = true
       // todo 7-5-1 还原初始值
       this.shareList = []
@@ -140,18 +143,25 @@ export default {
       // todo 8-5 搜索历史
       // 数组 搜索词为空
       if (this.value.trim() !== '') {
-        this.historyList.unshift(this.value)
-        // 搜索词 重复
-        this.historyList = [...new Set(this.historyList)]
-        console.log('this.historyList')
-        console.log(this.historyList)
-        // 只能去五个搜索关键词 fixme
-        this.historyList.splice(5)
-        console.log('this.historyList,,,,,,,')
-        console.log(this.historyList)
-
-        // 将搜索历史存储到本地 对象要变成字符串
-        setLocalToken('history-key-words', JSON.stringify(this.historyList))
+        // 如果当前热搜列表中没有该项，返回-1
+        const condition = this.historyList.findIndex(item => item.keyword === this.value)
+        console.log(condition)
+        if (condition === -1) {
+          this.historyList.unshift({
+            keyword: this.value,
+            show: true
+          })
+          // 搜索词 基础类型重复
+          // this.historyList = [...new Set(this.historyList)]
+          console.log('this.historyList')
+          console.log(this.historyList)
+          // 只能去五个搜索关键词 fixme
+          this.historyList.splice(5)
+          console.log('this.historyList,,,,,,,')
+          console.log(this.historyList)
+          // 将搜索历史存储到本地 对象要变成字符串
+          setLocalToken('history-key-words', JSON.stringify(this.historyList))
+        }
       }
     },
     // todo 8-1 大家都在搜
@@ -169,13 +179,19 @@ export default {
       setLocalToken('history-key-words', JSON.stringify(this.historyList))
     },
     // todo 8-3 取消
-    close () {
-      this.show = false
+    close (item) {
+      console.log(111111)
+      console.log(item)
+      item.show = false
+      this.historyList = this.historyList.filter(value => item !== value)
+      console.log('xxxx')
+      console.log(this.historyList)
+      // // 将搜索历史存储到本地 对象要变成字符串
+      setLocalToken('history-key-words', JSON.stringify(this.historyList))
     },
     // todo 8-4 点击大家都在搜的标签
     searchUs (item) {
       this.value = item
-      this.close()
       this.search()
     }
 
@@ -212,15 +228,19 @@ export default {
       font-weight: 400;
       color: @color-gray-1;
     }
-    .search-us{
+
+    .search-us {
       margin-top: 21px;
     }
-    .search-history{
+
+    .search-history {
       margin-top: 21px;
-      .cell{
-        padding:0;
+
+      .cell {
+        padding: 0;
       }
-      .clear{
+
+      .clear {
         font-size: 12px;
         font-family: PingFangSC, PingFangSC-Regular;
         font-weight: 400;

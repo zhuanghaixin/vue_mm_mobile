@@ -166,16 +166,13 @@ export default {
           // 异步actions不能获取在devtools查看到操作
           this.setUserInfo(res.data.user)
           // this.$store.commit('setUserInfo', res.data.user)
-          // this.$store.dispatch('asyncSetUserInfo', res.data.user)
-
+          // this.$store.dispatch('asyncSetUserInfo', res.data.user)–
           // todo 3-6 设置用户登录状态
           this.setIsLogin(true)
           // this.$store.commit('setIsLogin', true)
           // this.$store.dispatch('asyncSetIsLogin', true)
-
           // todo 3-7 路由跳转
           // this.$router.push({ name: 'Home' })
-
           // todo 4-6 当我们没有登录时，进入哪个页面，跳转至登录页，登录完成后，应该回到需要进入的页面
           const _redirect = this.$route.params.toPath
           console.log(_redirect)

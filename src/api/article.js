@@ -65,10 +65,11 @@ export function articleShareTopSearch () {
   })
 }
 
-export function articleComment (id) {
+export function articleComment (id, params) {
   return instance({
     url: `/articles/comments/${id}`,
-    method: 'GET'
+    method: 'GET',
+    params
   })
 }
 

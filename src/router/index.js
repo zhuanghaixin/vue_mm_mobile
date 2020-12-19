@@ -208,7 +208,7 @@ const routes = [
       },
       // 面试技巧分享详情
       {
-        path: 'shareDetail/:id',
+        path: 'shareDetail/:id?',
         name: 'ShareDetail',
         component: shareDetail,
         meta: {

@@ -9,9 +9,11 @@ export function comments () {
 }
 
 // fixme authorization
-export function artileCommentStar () {
+export function artileCommentStar (data) {
   return instance({
     url: '/article-comments/star',
-    method: 'POST'
+    method: 'POST',
+    data,
+    needToken: true
   })
 }

@@ -104,35 +104,42 @@ const routes = [
       // 公司详情
       {
         path: 'companyDetail/:id',
-        name:
-          'CompanyDetail',
-        component:
-        companyDetail
+        name: 'CompanyDetail',
+        component: companyDetail,
+        meta: {
+          isNeedLogin: false,
+          isNeedTab: false
+        }
       },
       // 在招职位
       {
         path: 'companyPosition/:id',
-        name:
-          'CompanyPosition',
-        component:
-        companyPosition
+        name: 'CompanyPosition',
+        component: companyPosition,
+        meta: {
+          isNeedLogin: false,
+          isNeedTab: false
+        }
       },
       // 职位详情
       {
         path: 'positionDetail/:id',
-        name:
-          'PositionDetail',
-        component:
-        positionDetail
+        name: 'PositionDetail',
+        component: positionDetail,
+        meta: {
+          isNeedLogin: false,
+          isNeedTab: false
+        }
       },
       // 企业面试题
       {
         path: '/interview',
-        name:
-          'Interview',
-        component:
-        interview
-
+        name: 'Interview',
+        component: interview,
+        meta: {
+          isNeedLogin: true,
+          isNeedTab: false
+        }
       },
       // 面试宝典 刷题
       {
@@ -161,7 +168,7 @@ const routes = [
         name: 'TechnicList',
         component: technicList,
         meta: {
-          isNeedLogin: true,
+          isNeedLogin: false,
           isNeedTab: false
         }
       },
@@ -171,7 +178,7 @@ const routes = [
         name: 'TechnicDetail',
         component: technicDetail,
         meta: {
-          isNeedLogin: true,
+          isNeedLogin: false,
           isNeedTab: false
         }
       },
@@ -181,7 +188,7 @@ const routes = [
         name: 'Search',
         component: search,
         meta: {
-          isNeedLogin: true,
+          isNeedLogin: false,
           isNeedTab: false
         }
       },
@@ -191,7 +198,7 @@ const routes = [
         name: 'Chart',
         component: chart,
         meta: {
-          isNeedLogin: true,
+          isNeedLogin: false,
           isNeedTab: false
         }
 
@@ -202,7 +209,7 @@ const routes = [
         name: 'ShareList',
         component: shareList,
         meta: {
-          isNeedLogin: true,
+          isNeedLogin: false,
           isNeedTab: false
         }
       },
@@ -212,7 +219,7 @@ const routes = [
         name: 'ShareDetail',
         component: shareDetail,
         meta: {
-          isNeedLogin: true,
+          isNeedLogin: false,
           isNeedTab: false
         }
       },

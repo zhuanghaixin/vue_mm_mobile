@@ -299,9 +299,24 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   // todo 7-7-6 页面切换时取消所有接口调用
   window.cancelAxios('', true)
+  // todo 9-5-2 记录每个角落页面离开时到的滚动位置
+  const _scrollTop = document.documentElement.scrollTop || document.body.scrollTop || window.pageYOffset
+  from.meta.scrollTop = _scrollTop
+  console.log('scrollTop', _scrollTop)
   if (!to.meta.isNeedLogin) {
-    // 传入从哪里来的参数
     next()
+    // 传入从哪里来的参数
+    // todo 9-6 登录优化
+    // todo 9-6-1 如果满足登录条件（token存在，没有登录），可以获取一下用户信息
+    if (Token.getLocalToken('mm_token') && !store.getters.getIsLogin) {
+      // todo 9-6-1-1 获取用户信息
+      AuthApi.authInfo(true).then(res => {
+      // 设置登录状态
+        store.commit('setIsLogin', true)
+        // 保存用户信息
+        store.commit('setUserInfo', res.data)
+      })
+    }
   } else {
     if (store.getters.getIsLogin) {
       next()
@@ -330,6 +345,11 @@ router.beforeEach((to, from, next) => {
       }
     }
   }
+})
+// todo 9-5 滚动优化
+// todo 9-5-1 进入任何页面回到顶部
+router.afterEach((to, from, next) => {
+  window.scrollTo(0, 0)
 })
 
 export default router

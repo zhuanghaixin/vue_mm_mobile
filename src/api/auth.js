@@ -1,6 +1,6 @@
 import instance from '../utils/http'
 
-export function authInfo (token) {
+export function authInfo (bol = false) {
   return instance({
     url: '/au/info',
     method: 'GET',
@@ -8,7 +8,8 @@ export function authInfo (token) {
     // headers: {
     //   authorization: `Bearer ${token}`
     // }
-    needToken: true
+    needToken: true,
+    noError: bol // 加入参数，响应拦截器判断是否需要跳转登录页 true不跳转，false没跳转
 
   })
 }

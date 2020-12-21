@@ -15,6 +15,7 @@ import router from '@/router/index'
 // axios封装
 // todo 7-7 全局取消接口操作
 // todo 7-7-1 定义取消方法集合
+import { removeLocalToken } from '@/utils/token'
 let cancelArr = []
 // 取消某个接口
 //  todo 7-7-3 全局定义取消方法论， 取消单个url或者取消全部
@@ -80,16 +81,22 @@ instance.interceptors.response.use(
     if (response.data.code === 200) {
       return response.data
     } else if (response.data.code === 401 || response.data.code === 403) { // todo 4-2 token过期
-      // todo 4-2-1 提示
-      Toast.fail(response.data.message)
-      // todo 4-2-2 删除token
-      Token.removeLocalToken('mm_token')
-      // todo 4-2-3 设置用户登录状态为false
-      store.commit('setIsLogin', false)
-      // todo 4-2-4 跳转到login
-      router.push('/login')
-      // todo 4-2-5 中止then
-      return Promise.reject(new Error(response.data.message))
+      if (response.config.noError) {
+        // todo 9-5-3 如果noError=true 不跳转登录页，删除token，中止then执行
+        removeLocalToken('mm_token')
+        return Promise.reject(new Error('人为的错误，别理'))
+      } else {
+        // todo 4-2-1 提示
+        Toast.fail(response.data.message)
+        // todo 4-2-2 删除token
+        Token.removeLocalToken('mm_token')
+        // todo 4-2-3 设置用户登录状态为false
+        store.commit('setIsLogin', false)
+        // todo 4-2-4 跳转到login
+        router.push('/login')
+        // todo 4-2-5 中止then
+        return Promise.reject(new Error(response.data.message))
+      }
     } else {
       Toast.fail(response.data.message)
       return Promise.reject(new Error(response.data.message))

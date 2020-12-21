@@ -75,26 +75,32 @@ export function articleComment (id, params) {
 
 // fixme authorization
 
-export function addArticleComment () {
+export function addArticleComment (data) {
   return instance({
     url: '/articles/comments',
-    method: 'POST'
+    method: 'POST',
+    data,
+    needToken: true
   })
 }
 
 // fixme authorization
-export function articleStar () {
+export function articleStar (data) {
   return instance({
     url: '/articles/star',
-    method: 'POST'
+    method: 'POST',
+    data,
+    needToken: true
   })
 }
 
 // fixme authorization
-export function articleCollect () {
+export function articleCollect (data) {
   return instance({
     url: '/articles/collect',
-    method: 'POST'
+    method: 'POST',
+    data,
+    needToken: true
   })
 }
 

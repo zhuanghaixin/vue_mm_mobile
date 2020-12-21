@@ -95,6 +95,9 @@ export default {
   created () {
 
   },
+  activated () {
+    window.scrollTo(0, this.$route.meta.scrollTop)
+  },
   methods: {
     async getShareList () {
       const res = await articleShareList({

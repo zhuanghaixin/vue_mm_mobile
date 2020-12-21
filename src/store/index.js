@@ -9,9 +9,6 @@ import userInfo from './modules/userInfo'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  state: {
-    data: 0
-  },
   getters,
   mutations,
   actions,

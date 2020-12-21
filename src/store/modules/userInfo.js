@@ -6,6 +6,14 @@ const state = {
 const getters = {
   getUserInfo (state) {
     return state.userInfo
+  },
+  // todo 9-9-2 使用getter进行封装
+  setState (state, getters) {
+    console.log('zzzzzz')
+    console.log(state, getters)
+    return (fn, id) => {
+      return getters.getUserInfo[fn] && getters.getUserInfo[fn].includes(+id)
+    }
   }
 }
 const mutations = {

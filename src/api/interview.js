@@ -1,9 +1,10 @@
 import instance from '../utils/http'
 
-export function interviewFilter () {
+export function interviewFilters () {
   return instance({
     url: '/interview/filters',
-    method: 'GET'
+    method: 'GET',
+    needToken: true
   })
 }
 

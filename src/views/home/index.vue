@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <!-- todo 7-1 keep-alive缓存组件 -->
-    <keep-alive include="Find,ShareList">
+    <keep-alive include="Find,ShareList,Question">
     <router-view></router-view>
     </keep-alive>
     <!--    <router-link to="Company">公司</router-link>-->

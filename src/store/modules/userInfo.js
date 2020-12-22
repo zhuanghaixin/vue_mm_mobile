@@ -9,12 +9,23 @@ const getters = {
   },
   // todo 9-9-2 使用getter进行封装
   setState (state, getters) {
-    console.log('zzzzzz')
+    if (!getters.getIsLogin) {
+      return 0
+    }
     console.log(state, getters)
     return (fn, id) => {
       return getters.getUserInfo[fn] && getters.getUserInfo[fn].includes(+id)
     }
+  },
+  getTotalQuestion (state, getters) {
+    return getters.getUserInfo.collectQuestions.length + getters.getUserInfo.errorQuestions.length
+  },
+  getRate (state, getters) {
+    return (total) => {
+      return parseInt(getters.getTotalQuestion / total * 100)
+    }
   }
+
 }
 const mutations = {
   setUserInfo (state, payload) {

@@ -1,4 +1,4 @@
-import instance from '@/utils'
+import instance from '@/utils/http'
 
 // fixme authorization
 export function questionCompanyFilter (id) {
@@ -16,10 +16,12 @@ export function questionCompany (id) {
 }
 
 // fixme authorization
-export function questionSubmit () {
+export function questionSubmit (data) {
   return instance({
     url: '/questions/submit',
-    method: 'POST'
+    method: 'POST',
+    needToken: true,
+    data
   })
 }
 
@@ -27,7 +29,8 @@ export function questionSubmit () {
 export function questionDetail (id) {
   return instance({
     url: `/questions/${id}`,
-    method: 'GET'
+    method: 'GET',
+    needToken: true
   })
 }
 

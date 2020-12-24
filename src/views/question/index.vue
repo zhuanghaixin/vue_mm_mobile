@@ -106,6 +106,7 @@
 </template>
 
 <script>
+// fixme 状态过渡 数字动画
 import { interviewFilters } from '@/api/interview'
 import { mapGetters } from 'vuex'
 
@@ -173,7 +174,14 @@ export default {
 
     // todo 10-3 模拟面试
     simulateInterview () {
-      this.$router.push({ name: 'Interview' })
+      this.$router.push({
+        name: 'Interview',
+        query: {
+          type: this.cityPositions[this.city][this.currentIndex].id,
+          city: this.city
+        }
+
+      })
     }
 
   }

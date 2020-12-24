@@ -8,9 +8,11 @@ export function interviewFilters () {
   })
 }
 
-export function interviewQuestion () {
+export function interviewQuestion (params) {
   return instance({
     url: '/interview/questions',
-    method: 'GET'
+    method: 'GET',
+    needToken: true,
+    params
   })
 }

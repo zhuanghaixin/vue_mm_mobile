@@ -11,7 +11,7 @@
         <h1 class="title">{{ title }}</h1>
       </template>
       <template #right v-if="rightText">
-        <span class="rightText">{{rightText}}</span>
+        <span class="rightText">{{ rightText }}</span>
       </template>
     </van-nav-bar>
   </div>
@@ -40,15 +40,28 @@ export default {
   methods: {
     onClickLeft () {
       // todo 4-8   封装NavBar组件
+      if (this.pathName === 'Question') {
+        this.$dialog.confirm({
+          title: '警告',
+          message: '你确定离开当前界面吗？'
+        })
+          .then(() => {
+            return this.$router.push({ name: `${this.pathName}` })
+            // on confirm
+          })
+          .catch(() => {
+            // on cancel
+          })
+      } else {
+        this.$router.go(-1)
+      }
       if (this.pathName?.includes('/')) {
         return this.$router.push(this.pathName)
-      } else if (this.pathName) {
+      } else if (this.pathName && this.pathName !== 'Question') {
         return this.$router.push({ name: `${this.pathName}` })
       }
-      this.$router.go(-1)
     },
     onClickRight () {
-      console.log(11111)
       this.$emit('rightEvent')
     }
   }
@@ -74,7 +87,8 @@ export default {
     line-height: 50px;
     letter-spacing: 0px;
   }
-  .rightText{
+
+  .rightText {
     font-size: 14px;
     font-family: PingFangSC, PingFangSC-Regular;
     font-weight: 400;
